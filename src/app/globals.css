@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Schoolbell&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,17 +11,22 @@
   --color-warning: #F2A459;
   --color-background: #FFFFFF;
   --color-text: #333333;
+  --font-schoolbell: 'Schoolbell', cursive;
 }
 
 body {
-  @apply text-text bg-background;
+  @apply text-text bg-background font-schoolbell;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  @apply font-bold text-primary;
+  @apply font-bold text-primary font-schoolbell;
 }
 
 a {
-  @apply text-accent hover:text-secondary;
+  @apply text-accent hover:text-secondary font-schoolbell;
+}
+
+.font-schoolbell {
+  font-family: var(--font-schoolbell);
 }
 

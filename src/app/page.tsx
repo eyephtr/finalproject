@@ -3,13 +3,13 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState } from 'react'
-import { Notebook, HeartPulse, Calendar, Camera, Trophy } from 'lucide-react'
+import { Notebook, HeartPulse, Camera, Trophy } from 'lucide-react'
 import DiaryPetMarquee from '@/components/Marquee'
-import PetDiaryPortfolio from '@/components/PetDiaryPortfolio'
 
 // Animated Pet Mascot Component
 const PetMascot = () => {
     return (
+        <div className="flex justify-center items-center mb-5">
         <div className="relative w-64 h-64">
             <svg
                 width="700"
@@ -31,18 +31,18 @@ const PetMascot = () => {
                         0% { fill: transparent; }
                         100% { fill: #000; }
                     }
-                    path { animation: draw 2s 1; animation-fill-mode: forwards; }
-                    #ear-1 { animation-delay: 2s; }
-                    #tail { animation-delay: 3.5s; }
-                    #ear-2 { animation-delay: 5.5s; }
-                    #snout { animation-delay: 6.5s; }
-                    #mouth { animation-delay: 7s; }
-                    #mouth-1 { animation-delay: 7.5s; }
-                    #mouth-2 { animation-delay: 8s; }
-                    #nose { animation-delay: 9s; }
-                    circle { animation: pop 0s 1; animation-fill-mode: forwards; }
-                    #eye-1 { animation-delay: 11s; }
-                    #eye-2 { animation-delay: 10.5s; }
+                    path { animation: draw 1s 1; animation-fill-mode: forwards; } /* ลดเวลาเหลือ 1s */
+                    #ear-1 { animation-delay: 1s; } /* ลด delay */
+                    #tail { animation-delay: 2s; }
+                    #ear-2 { animation-delay: 3s; }
+                    #snout { animation-delay: 3.5s; }
+                    #mouth { animation-delay: 4s; }
+                    #mouth-1 { animation-delay: 4.25s; }
+                    #mouth-2 { animation-delay: 4.5s; }
+                    #nose { animation-delay: 5s; }
+                    circle { animation: pop 0.5s 1; animation-fill-mode: forwards; } /* ลด pop เหลือ 0.5s */
+                    #eye-1 { animation-delay: 6s; }
+                    #eye-2 { animation-delay: 5.5s; }
                 `}</style>
                 <text x="181.5" y="190" fontFamily="Tahoma,Helvetica,Arial,sans-serif" fontSize="150" letterSpacing="-5" fill="#000">dog</text>
                 <g fill="transparent">
@@ -60,6 +60,7 @@ const PetMascot = () => {
                     <path id="nose" d="M 351,140 385,112 349,158 395,117 353,164 396,130 358,172 399,142 369,176 401,154 386,176" />
                 </g>
             </svg>
+        </div>
         </div>
     )
 }
@@ -146,13 +147,7 @@ const DiaryEntryPreview = () => {
 export default function Home() {
     return (
         <div className="min-h-screen bg-gradient-to-b from-secondary to-primary relative overflow-hidden">
-            <div
-                className="absolute inset-0 opacity-10"
-                style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23000'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v-1h9v-9h1v9zm-98 0h4v1H-2v4h-1v-4h-9v-1h9v-9h1v9zm0-98h4v1H-2v4h-1v-4h-9v-1h9v-9h1v9zm98 0h4v1h-4v4h-1v-4h-9v-1h9v-9h1v9zM16 10h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zM6 14h1v1H6zm2 0h1v1H8zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm10 40h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm10 34h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1zm2 0h1v1h-1z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-                }}
-            ></div>
-
+            <DiaryPetMarquee />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
                 {/* Header Section */}
                 <motion.div
@@ -161,6 +156,8 @@ export default function Home() {
                     transition={{ duration: 0.8 }}
                     className="text-center mb-16"
                 >
+                        
+
                         <PetMascot />
                     <h1 className="text-5xl font-extrabold text-background sm:text-6xl md:text-7xl mb-4 drop-shadow-sm">
                         PetPet Diary
@@ -232,8 +229,6 @@ export default function Home() {
                     </Link>
                 </motion.div>
             </div>
-            <DiaryPetMarquee />
-            <PetDiaryPortfolio />
         </div>
     )
 }

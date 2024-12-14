@@ -3,11 +3,11 @@ import styles from './Marquee.module.css';
 
 const DiaryPetMarquee = () => {
     const petEntries = [
-        "Fluffy's first walk today! 🐶",
-        "Whiskers caught a toy mouse! 🐱",
-        "Polly learned a new trick! 🦜",
-        "Bubbles swam in circles! 🐠",
-        "Hoppy munched on fresh carrots! 🐰"
+        "✴︎ Pet Diary For Your Lovely Friends ✴︎",
+        "🦴 MEMORIES + MOMENTS + MILESTONES",
+        "✴︎ Pet Diary For Your Lovely Friends ✴︎",
+        "🦴 MEMORIES + MOMENTS + MILESTONES",
+        "✴︎ Pet Diary For Your Lovely Friends ✴︎"
     ];
 
     return (

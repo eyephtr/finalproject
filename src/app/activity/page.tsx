@@ -1,10 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import styles from './FortuneStickGame.module.css'
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from 'next/link'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 const fortunes = {
     1: "🦮 RUN-RUN-RUN 💨",
@@ -34,6 +37,23 @@ export default function FortuneStickGame() {
     const [selectedStick, setSelectedStick] = useState<number | null>(null)
     const [showAlert, setShowAlert] = useState(false)
     const [isShaking, setIsShaking] = useState(false)
+    const { data: session, status } = useSession()
+    const router = useRouter()
+
+    useEffect(() => {
+      if (status === 'unauthenticated') {
+        alert('You need to be logged in to access this page.')
+        router.push('/member/login')
+      }
+    }, [status, router])
+
+    if (status === 'loading') {
+      return <div>Loading...</div>
+    }
+
+    if (status === 'unauthenticated') {
+      return null
+    }
 
     const handleCaseClick = () => {
         setIsShaking(true)
@@ -48,10 +68,6 @@ export default function FortuneStickGame() {
     const closeAlert = () => {
         setShowAlert(false)
     }
-
-    useEffect(() => {
-        document.body.style.fontFamily = "'Slackey', cursive"
-    }, [])
 
     return (
         <div className="container mx-auto px-4">

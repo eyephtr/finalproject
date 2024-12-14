@@ -107,7 +107,7 @@ export default function BreedPage() {
                 <div className="bg-white rounded-xl shadow-md overflow-hidden">
                     <div className="relative h-64 sm:h-96">
                         <Image
-                            src={`/img/Breed/${size.toLowerCase()}/${breedInfo.name.replace(/\s+/g, '')}.jpg`}
+                            src={`/img/breed/${breedInfo.name.toLowerCase().replace(/\s+/g, '')}.jpg`}
                             alt={breedInfo.name}
                             layout="fill"
                             objectFit="cover"

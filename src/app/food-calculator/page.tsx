@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CalendarIcon, ChevronUpDownIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -9,6 +9,10 @@ import { Slider } from "@/components/ui/slider"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import PetNameDisplay from '@/components/PetNameDisplay';
 import Cat404 from '@/components/404/cat404';
+import { db } from '@/lib/firebase';
+import { collection, getDocs } from 'firebase/firestore';
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 const FoodCalculator = () => {
     const [isCatSelected, setIsCatSelected] = useState(false);
@@ -27,6 +31,24 @@ const FoodCalculator = () => {
         foodCalories: ""
     });
     const [solution, setSolution] = useState(null);
+
+    const { data: session, status } = useSession()
+    const router = useRouter()
+
+    useEffect(() => {
+        if (status === 'unauthenticated') {
+            alert('You need to be logged in to access this page.')
+            router.push('/member/login')
+        }
+    }, [status, router])
+
+    if (status === 'loading') {
+        return <div>Loading...</div>
+    }
+
+    if (status === 'unauthenticated') {
+        return null
+    }
 
     const handleCatClick = () => {
         setIsCatSelected(true);
@@ -65,6 +87,19 @@ const FoodCalculator = () => {
         const days = (diffDays % 365) % 30;
         return { years, months, days };
     };
+
+    const [breeds, setBreeds] = useState<string[]>([]);
+
+    useEffect(() => {
+        const fetchBreeds = async () => {
+            const breedsCollection = collection(db, 'breed');
+            const breedsSnapshot = await getDocs(breedsCollection);
+            const breedsList = breedsSnapshot.docs.map(doc => doc.id);
+            setBreeds(breedsList);
+        };
+
+        fetchBreeds();
+    }, []);
 
     const handleCalculate = () => {
         const {
@@ -133,7 +168,8 @@ const FoodCalculator = () => {
     };
 
     return (
-        <div className="container mx-auto p-6 max-w-4xl bg-[#fff4d1] min-h-screen">
+        <div className="bg-[#fff4d1] min-h-screen">
+        <div className="container mx-auto p-6 max-w-4xl">
             <h1 className="text-4xl font-bold text-center mb-4 text-primary">
                 Pet Food Calculator
             </h1>
@@ -223,65 +259,9 @@ const FoodCalculator = () => {
                                     <ChevronUpDownIcon className="pointer-events-none absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
                                 </div>
                                 <datalist id="breeds">
-                                    <option value="Afghan Hound" />
-                                    <option value="Akita Inu" />
-                                    <option value="Alaskan Malamute" />
-                                    <option value="Basenji" />
-                                    <option value="Basset Hound" />
-                                    <option value="Beagle" />
-                                    <option value="Bernese Mountain Dog" />
-                                    <option value="Bichon Frise" />
-                                    <option value="Bolognese" />
-                                    <option value="Border Collie" />
-                                    <option value="Borzoi" />
-                                    <option value="Boxer" />
-                                    <option value="Bull Terrier" />
-                                    <option value="Bulldog" />
-                                    <option value="Cavalier King Charles Spaniel" />
-                                    <option value="Chihuahua" />
-                                    <option value="Chow Chow" />
-                                    <option value="Cocker Spaniel" />
-                                    <option value="Collie" />
-                                    <option value="Dachshund" />
-                                    <option value="Dalmatian" />
-                                    <option value="Doberman" />
-                                    <option value="Drever" />
-                                    <option value="French Bulldog" />
-                                    <option value="German Shepherd" />
-                                    <option value="Golden Retriever" />
-                                    <option value="Great Dane" />
-                                    <option value="Greyhound" />
-                                    <option value="Italian Greyhound" />
-                                    <option value="Jack Russell Terrier" />
-                                    <option value="Japanese Spitz" />
-                                    <option value="Labrador Retriever" />
-                                    <option value="Landseer" />
-                                    <option value="Lhasa Apso" />
-                                    <option value="Maltese" />
-                                    <option value="Manchester Terrier" />
-                                    <option value="Mastiff" />
-                                    <option value="Miniature Schnauzer" />
-                                    <option value="Mudi" />
-                                    <option value="Newfoundland" />
-                                    <option value="Papillon" />
-                                    <option value="Pembroke Welsh Corgi" />
-                                    <option value="Pekingese" />
-                                    <option value="Pitbull" />
-                                    <option value="Pomeranian" />
-                                    <option value="Poodle (Miniature)" />
-                                    <option value="Pug" />
-                                    <option value="Rottweiler" />
-                                    <option value="Saint Bernard" />
-                                    <option value="Samoyed" />
-                                    <option value="Schnauzer" />
-                                    <option value="Shetland Sheepdog" />
-                                    <option value="Shiba Inu" />
-                                    <option value="Shih Tzu" />
-                                    <option value="Siberian Husky" />
-                                    <option value="Thai Bangkaew" />
-                                    <option value="Thai Ridgeback" />
-                                    <option value="Welsh Terrier" />
-                                    <option value="Yorkshire Terrier" />
+                                    {breeds.map((breed, index) => (
+                                        <option key={index} value={breed} />
+                                    ))}
                                 </datalist>
                             </div>
 
@@ -407,9 +387,9 @@ const FoodCalculator = () => {
             {isModalOpen && solution && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
                     <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative">
-                        <Button 
-                            variant="ghost" 
-                            size="icon" 
+                        <Button
+                            variant="ghost"
+                            size="icon"
                             className="absolute top-4 right-4 z-10"
                             onClick={handleCloseModal}
                         >
@@ -442,6 +422,7 @@ const FoodCalculator = () => {
                     </div>
                 </div>
             )}
+        </div>
         </div>
     );
 };

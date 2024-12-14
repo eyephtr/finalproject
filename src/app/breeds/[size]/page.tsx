@@ -75,7 +75,7 @@ export default function DogBreedsPage() {
                         id: doc.id,
                         name: data.name,
                         description: data.about,
-                        image: `/img/Breed/${data.size.toLowerCase()}/${data.name.replace(/\s+/g, '')}.jpg`,
+                        image: `/img/breed/${data.name.toLowerCase().replace(/\s+/g, '')}.jpg`,
                         size: data.size,
                     });
                 });
@@ -216,7 +216,7 @@ export default function DogBreedsPage() {
                         <div key={breed.id} ref={(el) => (itemsRef.current[index] = el)} className="item w-[500px] h-[450px] m-[50px] block relative">
                             <div className="thumb w-[500px] h-[250px] overflow-hidden pointer-events-none">
                                 <Image
-                                    src={breed.image}
+                                    src={`/img/breed/${breed.name.toLowerCase().replace(/\s+/g, '')}.jpg`}
                                     alt={breed.name}
                                     width={750}
                                     height={250}

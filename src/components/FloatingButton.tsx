@@ -37,7 +37,7 @@ const FloatingButton = () => {
                     <span className={`${styles.floatElement} ${styles.element3}`}>
                         🦮
                     </span>
-                    <div className={styles.floatElementText}>Big Breeds</div>
+                    <div className={styles.floatElementText}>Large Breeds</div>
                 </Link>
             </div>
         </div>
